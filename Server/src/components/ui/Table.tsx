@@ -8,17 +8,17 @@ interface TableProps {
 export function Table({ headers, children }: TableProps) {
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-white border border-gray-200">
-        <thead className="bg-gray-50">
+      <table className="min-w-full bg-midnight-900 border border-midnight-800">
+        <thead className="bg-midnight-800">
           <tr>
             {headers.map((header, i) => (
-              <th key={i} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
+              <th key={i} className="px-6 py-3 text-left text-xs font-medium text-midnight-300 uppercase tracking-wider border-b border-midnight-700">
                 {header}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-200">
+        <tbody className="divide-y divide-midnight-800">
           {children}
         </tbody>
       </table>

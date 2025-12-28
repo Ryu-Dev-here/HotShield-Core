@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
       status: ReportStatus.QUEUED,
       metadata: {
         ip,
-        userAgent: request.headers.get('user-agent'),
+        userAgent: request.headers.get('user-agent') || undefined,
       },
     };
 

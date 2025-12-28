@@ -28,8 +28,20 @@ export async function getSessionCollection(): Promise<Collection<Session>> {
   return db.collection<Session>('sessions');
 }
 
+export async function adminExists(username: string): Promise<boolean> {
+  const collection = await getAdminCollection();
+  const admin = await collection.findOne({ username });
+  return admin !== null;
+}
+
 export async function createAdmin(username: string, password: string): Promise<void> {
   const collection = await getAdminCollection();
+  const existing = await collection.findOne({ username });
+  
+  if (existing) {
+    throw new Error('Admin already exists');
+  }
+  
   const passwordHash = await bcrypt.hash(password, 10);
   
   await collection.insertOne({

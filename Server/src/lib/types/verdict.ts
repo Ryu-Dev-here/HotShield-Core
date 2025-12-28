@@ -1,3 +1,5 @@
-export { Verdict, StateTransition, Case } from './case';
-export { ReportStatus, ScamCategory, Report } from './report';
+export { Verdict } from './case';
+export type { StateTransition, Case } from './case';
+export { ReportStatus, ScamCategory } from './report';
+export type { Report } from './report';
 
