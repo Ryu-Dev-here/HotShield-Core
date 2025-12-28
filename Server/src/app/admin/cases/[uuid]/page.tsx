@@ -1,0 +1,147 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+import { CaseTimeline } from '@/components/admin/CaseTimeline';
+import { ProofViewer } from '@/components/admin/ProofViewer';
+import { ReporterMetrics } from '@/components/admin/ReporterMetrics';
+import { VerdictControls } from '@/components/admin/VerdictControls';
+import { Verdict } from '@/lib/types/case';
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+
+export default function CaseDetailPage() {
+  const params = useParams();
+  const router = useRouter();
+  const [caseData, setCaseData] = useState<any>(null);
+  const [reports, setReports] = useState<any[]>([]);
+  const [reporters, setReporters] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!params.uuid) return;
+
+    fetch(`/api/admin/cases/${params.uuid}`)
+      .then((res) => {
+        if (!res.ok) {
+          router.push('/admin/login');
+          return;
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data) {
+          setCaseData(data.case);
+          setReports(data.reports);
+          setReporters(data.reporters);
+        }
+        setLoading(false);
+      });
+  }, [params.uuid, router]);
+
+  const handleVerdictChange = async (verdict: Verdict, reason?: string) => {
+    const response = await fetch(`/api/admin/cases/${params.uuid}/verdict`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ verdict, reason }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update verdict');
+    }
+
+    if (caseData) {
+      setCaseData({ ...caseData, verdict });
+    }
+  };
+
+  if (loading) {
+    return <div className="p-8">Loading...</div>;
+  }
+
+  if (!caseData) {
+    return <div className="p-8">Case not found</div>;
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <nav className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <h1 className="text-xl font-semibold">HotShield Admin</h1>
+            <div className="flex space-x-4">
+              <Link href="/admin/cases">
+                <Button variant="secondary">Back to Cases</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white rounded-lg shadow p-6 mb-6">
+          <h2 className="text-2xl font-bold mb-4">Case Details</h2>
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <p className="text-sm text-gray-600">UUID</p>
+              <p className="font-mono text-sm">{caseData.targetUuid}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Verdict</p>
+              <p className="font-semibold">{caseData.verdict}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Confidence</p>
+              <p className="font-semibold">{caseData.confidence}%</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Reports</p>
+              <p className="font-semibold">{caseData.reports.length}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-white rounded-lg shadow p-6">
+            <CaseTimeline timeline={caseData.timeline} />
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <VerdictControls
+              currentVerdict={caseData.verdict}
+              onVerdictChange={handleVerdictChange}
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-semibold mb-4">Reports</h3>
+          <div className="space-y-4">
+            {reports.map((report, i) => {
+              const reporter = reporters.find((r) => r.fingerprint === report.reporterFingerprint);
+              return (
+                <div key={i} className="border border-gray-200 rounded p-4">
+                  <div className="flex justify-between mb-2">
+                    <span className="font-medium">{report.category}</span>
+                    <span className="text-sm text-gray-500">
+                      {new Date(report.timestamp).toLocaleString()}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-2">{report.description}</p>
+                  <ProofViewer
+                    proofLinks={report.proofLinks}
+                    proofHashes={report.proofHashes}
+                  />
+                  {reporter && (
+                    <div className="mt-2">
+                      <ReporterMetrics reporter={reporter} />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
