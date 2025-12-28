@@ -15,36 +15,36 @@ export function ReporterMetrics({ reporter }: ReporterMetricsProps) {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Reporter Metrics</h3>
+      <h3 className="text-lg font-semibold text-midnight-100">Reporter Metrics</h3>
       <div className="grid grid-cols-2 gap-4">
-        <div className="p-3 bg-gray-50 rounded">
-          <p className="text-sm text-gray-600">Trust Score</p>
-          <p className="text-2xl font-bold">{reporter.trustScore}/100</p>
+        <div className="p-3 bg-midnight-800 rounded border border-midnight-700">
+          <p className="text-sm text-midnight-300">Trust Score</p>
+          <p className="text-2xl font-bold text-midnight-100">{reporter.trustScore}/100</p>
         </div>
-        <div className="p-3 bg-gray-50 rounded">
-          <p className="text-sm text-gray-600">Total Reports</p>
-          <p className="text-2xl font-bold">{reporter.reportCount}</p>
+        <div className="p-3 bg-midnight-800 rounded border border-midnight-700">
+          <p className="text-sm text-midnight-300">Total Reports</p>
+          <p className="text-2xl font-bold text-midnight-100">{reporter.reportCount}</p>
         </div>
-        <div className="p-3 bg-gray-50 rounded">
-          <p className="text-sm text-gray-600">Verified</p>
-          <p className="text-2xl font-bold text-green-600">{reporter.verifiedCount}</p>
-          <p className="text-xs text-gray-500">{verifiedRatio}%</p>
+        <div className="p-3 bg-midnight-800 rounded border border-midnight-700">
+          <p className="text-sm text-midnight-300">Verified</p>
+          <p className="text-2xl font-bold text-green-400">{reporter.verifiedCount}</p>
+          <p className="text-xs text-midnight-400">{verifiedRatio}%</p>
         </div>
-        <div className="p-3 bg-gray-50 rounded">
-          <p className="text-sm text-gray-600">Cleared</p>
-          <p className="text-2xl font-bold text-red-600">{reporter.clearedCount}</p>
-          <p className="text-xs text-gray-500">{clearedRatio}%</p>
+        <div className="p-3 bg-midnight-800 rounded border border-midnight-700">
+          <p className="text-sm text-midnight-300">Cleared</p>
+          <p className="text-2xl font-bold text-red-400">{reporter.clearedCount}</p>
+          <p className="text-xs text-midnight-400">{clearedRatio}%</p>
         </div>
       </div>
       {reporter.shadowBanned && (
-        <div className="p-3 bg-red-100 border border-red-300 rounded">
-          <p className="text-sm font-medium text-red-800">Shadow Banned</p>
+        <div className="p-3 bg-red-900 border border-red-700 rounded">
+          <p className="text-sm font-medium text-red-200">Shadow Banned</p>
         </div>
       )}
       {reporter.abuseFlags.length > 0 && (
-        <div className="p-3 bg-yellow-100 border border-yellow-300 rounded">
-          <p className="text-sm font-medium text-yellow-800">Abuse Flags</p>
-          <ul className="text-xs text-yellow-700 mt-1 list-disc list-inside">
+        <div className="p-3 bg-yellow-900 border border-yellow-700 rounded">
+          <p className="text-sm font-medium text-yellow-200">Abuse Flags</p>
+          <ul className="text-xs text-yellow-300 mt-1 list-disc list-inside">
             {reporter.abuseFlags.map((flag, i) => (
               <li key={i}>{flag}</li>
             ))}

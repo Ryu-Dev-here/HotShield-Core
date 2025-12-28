@@ -31,12 +31,12 @@ export function VerdictControls({ currentVerdict, onVerdictChange }: VerdictCont
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Change Verdict</h3>
+      <h3 className="text-lg font-semibold text-midnight-100">Change Verdict</h3>
       <div className="space-y-2">
         <select
           value={selectedVerdict}
           onChange={(e) => setSelectedVerdict(e.target.value as Verdict)}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-midnight-700 rounded bg-midnight-800 text-midnight-100 focus:outline-none focus:ring-2 focus:ring-midnight-600"
         >
           <option value={Verdict.CLEAN}>CLEAN</option>
           <option value={Verdict.PENDING}>PENDING</option>
@@ -48,7 +48,7 @@ export function VerdictControls({ currentVerdict, onVerdictChange }: VerdictCont
           value={reason}
           onChange={(e) => setReason(e.target.value)}
           placeholder="Reason for change (optional)"
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-midnight-700 rounded bg-midnight-800 text-midnight-100 placeholder-midnight-400 focus:outline-none focus:ring-2 focus:ring-midnight-600"
           rows={3}
         />
         <Button
