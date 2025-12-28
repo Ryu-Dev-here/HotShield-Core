@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node check-components.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
