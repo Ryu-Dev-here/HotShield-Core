@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navbar } from '@/components/admin/navbar';
-import { Table } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
+import { Navbar } from '../../../components/admin/navbar';
+import { Table } from '../../../components/ui/table';
+import { Button } from '../../../components/ui/button';
 
 export default function AuditPage() {
   const [logs, setLogs] = useState<any[]>([]);
