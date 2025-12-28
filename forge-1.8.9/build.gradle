@@ -2,15 +2,18 @@ buildscript {
     repositories {
         maven { url "https://maven.minecraftforge.net" }
         mavenCentral()
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
-        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.4"
+        // Use 1.2.3 → avoids the Gradle-2.11+ crash
+        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.3"
     }
 }
 
 apply plugin: "net.minecraftforge.gradle.forge"
-apply plugin: "shadow"
+apply plugin: "com.github.johnrengelman.shadow"
 
 version = "1.0"
 group = "com.hotshield"
@@ -26,16 +29,13 @@ minecraft {
     makeObfSourceJar = false
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+repositories {
+    mavenCentral()
+}
 
 configurations {
     shade
     compile.extendsFrom(shade)
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
@@ -49,7 +49,6 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         include "mcmod.info"
         include "META-INF/mods.toml"
-        
         expand "version":project.version, "mcversion":project.minecraft.version
     }
 
@@ -57,55 +56,12 @@ processResources {
         exclude "mcmod.info"
         exclude "META-INF/mods.toml"
     }
-
-    rename '(.+_at.cfg)', 'META-INF/$1'
 }
-
-task encryptConfig {
-    doLast {
-        def configFile = file("src/main/resources/META-INF/config.txt")
-        if (!configFile.exists()) return
-        
-        def key = "Imacat"
-        def secretKey = new javax.crypto.spec.SecretKeySpec(key.getBytes("UTF-8"), "AES")
-        def cipher = javax.crypto.Cipher.getInstance("AES/ECB/PKCS5Padding")
-        cipher.init(javax.crypto.Cipher.ENCRYPT_MODE, secretKey)
-        
-        def lines = configFile.readLines()
-        def encrypted = lines.collect { line ->
-            line = line.trim()
-            if (line.isEmpty() || line.startsWith("#")) return line
-            try {
-                def encryptedBytes = cipher.doFinal(line.getBytes("UTF-8"))
-                return new String(encryptedBytes.encodeBase64(), "UTF-8").trim()
-            } catch (Exception e) {
-                return line
-            }
-        }
-        
-        configFile.write(encrypted.join("\n"))
-    }
-}
-
-processResources.finalizedBy encryptConfig
 
 shadowJar {
-    dependencies {
-    }
     configurations = [project.configurations.shade]
     duplicatesStrategy DuplicatesStrategy.EXCLUDE
-    classifier ""
-    
-    from(project.sourceSets.main.output.resourcesDir) {
-        include "**/*"
-    }
-    
-    from(project.sourceSets.main.resources) {
-        include "config.txt"
-        include "icon.png"
-        include "mcmod.info"
-        include "META-INF/**"
-    }
+    classifier = ""
 }
 
 reobf {
