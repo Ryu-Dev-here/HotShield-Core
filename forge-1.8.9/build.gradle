@@ -1,17 +1,16 @@
 buildscript {
     repositories {
         maven { url "https://maven.minecraftforge.net" }
+        mavenCentral()
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
+        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.4"
     }
 }
 
-plugins {
-    id "com.github.johnrengelman.shadow" version "2.0.4"
-}
-
 apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "shadow"
 
 version = "1.0"
 group = "com.hotshield"
@@ -62,19 +61,15 @@ processResources {
     rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
-import javax.crypto.Cipher
-import javax.crypto.spec.SecretKeySpec
-import java.util.Base64
-
 task encryptConfig {
     doLast {
         def configFile = file("src/main/resources/META-INF/config.txt")
         if (!configFile.exists()) return
         
-        def key = "HotShield2024Key!"
-        def secretKey = new SecretKeySpec(key.getBytes("UTF-8"), "AES")
-        def cipher = Cipher.getInstance("AES/ECB/PKCS5Padding")
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey)
+        def key = "Imacat"
+        def secretKey = new javax.crypto.spec.SecretKeySpec(key.getBytes("UTF-8"), "AES")
+        def cipher = javax.crypto.Cipher.getInstance("AES/ECB/PKCS5Padding")
+        cipher.init(javax.crypto.Cipher.ENCRYPT_MODE, secretKey)
         
         def lines = configFile.readLines()
         def encrypted = lines.collect { line ->
@@ -82,7 +77,7 @@ task encryptConfig {
             if (line.isEmpty() || line.startsWith("#")) return line
             try {
                 def encryptedBytes = cipher.doFinal(line.getBytes("UTF-8"))
-                return Base64.getEncoder().encodeToString(encryptedBytes)
+                return new String(encryptedBytes.encodeBase64(), "UTF-8").trim()
             } catch (Exception e) {
                 return line
             }
@@ -96,7 +91,6 @@ processResources.finalizedBy encryptConfig
 
 shadowJar {
     dependencies {
-        // Gson is shaded since it's not part of Minecraft's public API
     }
     configurations = [project.configurations.shade]
     duplicatesStrategy DuplicatesStrategy.EXCLUDE
@@ -117,4 +111,3 @@ shadowJar {
 reobf {
     shadowJar {}
 }
-
