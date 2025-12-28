@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { Navbar } from 'src/components/admin/navbar';
-import { CaseTimeline } from 'src/components/admin/casetimeline';
-import { ProofViewer } from 'src/components/admin/proofviewer';
+import { Navbar } from './navbar';
+import { CaseTimeline } from './casetimeline';
+import { ProofViewer } from './proofviewer';
 import { ReporterMetrics } from 'src/components/admin/reportermetrics';
 import { VerdictControls } from 'src/components/admin/verdictcontrols';
 import { Verdict } from 'src/lib/types/case';

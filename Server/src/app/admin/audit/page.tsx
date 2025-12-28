@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navbar } from 'src/components/admin/navbar';
-import { Table } from 'src/components/ui/table';
+import { Navbar } from './navbar';
+import { Table } from './table';
 
 export default function AuditPage() {
   const [logs, setLogs] = useState<any[]>([]);

@@ -21,15 +21,15 @@
       "static/chunks/117-abff452fc4a997a0.js",
       "static/chunks/main-app-34780f649d916eba.js",
       "static/chunks/448-0cfc85933ece5c39.js",
-      "static/chunks/app/admin/audit/page-ea8109cbad8efe6c.js"
+      "static/chunks/app/admin/audit/page-86e9d09208a5261f.js"
     ],
-    "/admin/dashboard/page": [
+    "/admin/cases/[uuid]/page": [
       "static/chunks/webpack-616e068a201ad621.js",
       "static/chunks/fd9d1056-72ef1b92e01f1388.js",
       "static/chunks/117-abff452fc4a997a0.js",
       "static/chunks/main-app-34780f649d916eba.js",
       "static/chunks/448-0cfc85933ece5c39.js",
-      "static/chunks/app/admin/dashboard/page-a698bb3d2ca60523.js"
+      "static/chunks/app/admin/cases/[uuid]/page-de923a0177a3a70e.js"
     ],
     "/admin/cases/page": [
       "static/chunks/webpack-616e068a201ad621.js",
@@ -39,20 +39,20 @@
       "static/chunks/448-0cfc85933ece5c39.js",
       "static/chunks/app/admin/cases/page-642f0c1e63711f60.js"
     ],
+    "/admin/dashboard/page": [
+      "static/chunks/webpack-616e068a201ad621.js",
+      "static/chunks/fd9d1056-72ef1b92e01f1388.js",
+      "static/chunks/117-abff452fc4a997a0.js",
+      "static/chunks/main-app-34780f649d916eba.js",
+      "static/chunks/448-0cfc85933ece5c39.js",
+      "static/chunks/app/admin/dashboard/page-a698bb3d2ca60523.js"
+    ],
     "/admin/login/page": [
       "static/chunks/webpack-616e068a201ad621.js",
       "static/chunks/fd9d1056-72ef1b92e01f1388.js",
       "static/chunks/117-abff452fc4a997a0.js",
       "static/chunks/main-app-34780f649d916eba.js",
       "static/chunks/app/admin/login/page-4d904f5c7dd23afd.js"
-    ],
-    "/admin/cases/[uuid]/page": [
-      "static/chunks/webpack-616e068a201ad621.js",
-      "static/chunks/fd9d1056-72ef1b92e01f1388.js",
-      "static/chunks/117-abff452fc4a997a0.js",
-      "static/chunks/main-app-34780f649d916eba.js",
-      "static/chunks/448-0cfc85933ece5c39.js",
-      "static/chunks/app/admin/cases/[uuid]/page-bb23173b7cb0492b.js"
     ],
     "/admin/reporters/page": [
       "static/chunks/webpack-616e068a201ad621.js",
