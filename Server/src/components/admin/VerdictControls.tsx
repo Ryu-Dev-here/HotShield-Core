@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Verdict } from '@/lib/types/case';
 
 interface VerdictControlsProps {
@@ -62,4 +62,3 @@ export function VerdictControls({ currentVerdict, onVerdictChange }: VerdictCont
     </div>
   );
 }
-

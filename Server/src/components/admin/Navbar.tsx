@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 export function Navbar() {
   const router = useRouter();
@@ -65,4 +65,3 @@ export function Navbar() {
     </nav>
   );
 }
-

@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Navbar } from '@/components/admin/Navbar';
-import { Table } from '@/components/ui/Table';
-import { Button } from '@/components/ui/Button';
+import { Navbar } from '@/components/admin/navbar';
+import { Table } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 
 export default function ReportersPage() {
   const [reporters, setReporters] = useState<any[]>([]);

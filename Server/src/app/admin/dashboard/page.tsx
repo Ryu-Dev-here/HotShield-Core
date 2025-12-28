@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Navbar } from '@/components/admin/Navbar';
-import { Button } from '@/components/ui/Button';
+import { Navbar } from '@/components/admin/navbar';
+import { Button } from '@/components/ui/button';
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<any>(null);
