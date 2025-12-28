@@ -3,17 +3,13 @@ buildscript {
         maven { url "https://maven.minecraftforge.net" }
         mavenCentral()
         jcenter()
-        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
-        // Use 1.2.3 → avoids the Gradle-2.11+ crash
-        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.3"
     }
 }
 
 apply plugin: "net.minecraftforge.gradle.forge"
-apply plugin: "com.github.johnrengelman.shadow"
 
 version = "1.0"
 group = "com.hotshield"
@@ -39,6 +35,7 @@ configurations {
 }
 
 dependencies {
+    // libraries you want bundled
     shade "com.google.code.gson:gson:2.8.6"
 }
 
@@ -48,22 +45,33 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
         include "mcmod.info"
-        include "META-INF/mods.toml"
-        expand "version":project.version, "mcversion":project.minecraft.version
+        expand "version": project.version, "mcversion": project.minecraft.version
     }
-
     from(sourceSets.main.resources.srcDirs) {
         exclude "mcmod.info"
-        exclude "META-INF/mods.toml"
     }
 }
 
-shadowJar {
-    configurations = [project.configurations.shade]
-    duplicatesStrategy DuplicatesStrategy.EXCLUDE
-    classifier = ""
+task fatJar(type: Jar) {
+    dependsOn reobfJar
+
+    // Gradle 2.x properties (IMPORTANT)
+    baseName = archivesBaseName
+    version = project.version
+    classifier = "fat"
+
+    // include reobfuscated jar contents
+    from zipTree("${buildDir}/libs/${archivesBaseName}-${version}.jar")
+
+    // include shaded dependencies
+    from {
+        configurations.shade.collect { dep ->
+            dep.isDirectory() ? dep : zipTree(dep)
+        }
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    exclude "META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA"
 }
 
-reobf {
-    shadowJar {}
-}
+build.dependsOn fatJar
