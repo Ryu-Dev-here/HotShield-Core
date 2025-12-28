@@ -1,1 +1,1 @@
-{"version":1,"functions":{"/api/scammers":{},"/api/scammers/[uuid]":{}}}
+{"version":1,"functions":{"/api/scammers/[uuid]":{},"/api/scammers":{}}}
