@@ -2,14 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { Navbar } from '../../../../components/admin/navbar';
-import { CaseTimeline } from '../../../../components/admin/casetimeline';
-import { ProofViewer } from '../../../../components/admin/proofviewer';
-import { ReporterMetrics } from '../../../../components/admin/reportermetrics';
-import { VerdictControls } from '../../../../components/admin/verdictcontrols';
-import { Verdict } from '../../../../lib/types/case';
+import { Navbar } from 'src/components/admin/navbar';
+import { CaseTimeline } from 'src/components/admin/casetimeline';
+import { ProofViewer } from 'src/components/admin/proofviewer';
+import { ReporterMetrics } from 'src/components/admin/reportermetrics';
+import { VerdictControls } from 'src/components/admin/verdictcontrols';
+import { Verdict } from 'src/lib/types/case';
 import Link from 'next/link';
-import { Button } from '../../../../components/ui/button';
+import { Button } from 'src/components/ui/button';
 
 export default function CaseDetailPage() {
   const params = useParams();
